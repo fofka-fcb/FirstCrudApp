@@ -45,8 +45,7 @@ public class PeopleController {
     public String create(@ModelAttribute("person") @Valid Person person,
                          BindingResult bindingResult) { //В bindingResult помещаются все ошибки валидации
 
-        if (bindingResult.hasErrors())
-            return "people/new";
+        if (bindingResult.hasErrors()) return "people/new";
 
         personDao.save(person);
 
@@ -67,8 +66,7 @@ public class PeopleController {
                          BindingResult bindingResult,
                          @PathVariable("id") int id) {
 
-        if (bindingResult.hasErrors())
-            return "people/edit";
+        if (bindingResult.hasErrors()) return "people/edit";
 
         personDao.update(id, person);
 

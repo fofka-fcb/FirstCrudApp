@@ -14,6 +14,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 import org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring6.view.ThymeleafViewResolver;
+import ru.myPackage.utils.Props;
 
 import javax.sql.DataSource;
 
@@ -25,9 +26,12 @@ public class SpringConfig implements WebMvcConfigurer {
 
     private final ApplicationContext applicationContext;
 
+    private final Props props;
+
     @Autowired
-    public SpringConfig(ApplicationContext applicationContext) {
+    public SpringConfig(ApplicationContext applicationContext, Props props) {
         this.applicationContext = applicationContext;
+        this.props = props;
     }
 
     @Bean
@@ -59,9 +63,9 @@ public class SpringConfig implements WebMvcConfigurer {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
 
         dataSource.setDriverClassName("org.postgresql.Driver");
-        dataSource.setUrl("jdbc:postgresql://localhost:5432/first_db");
-        dataSource.setUsername("postgres");
-        dataSource.setPassword("6582");
+        dataSource.setUrl(props.getValue("db.url"));
+        dataSource.setUsername(props.getValue("db.login"));
+        dataSource.setPassword(props.getValue("db.password"));
 
         return dataSource;
     }
