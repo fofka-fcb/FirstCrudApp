@@ -34,11 +34,6 @@ public class Person {
 //        this.phoneNumber = phoneNumber;
     }
 
-//    public Person(int id, String name, int age, String email, int phoneNumber) {
-//        this(id, name, age, email);
-//        this.phoneNumber = phoneNumber;
-//    }
-
     public int getId() {
         return id;
     }

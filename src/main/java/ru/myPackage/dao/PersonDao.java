@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import ru.myPackage.models.Person;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Component
 public class PersonDao {
@@ -22,13 +23,16 @@ public class PersonDao {
     }
 
     public Person show(int id) {
-        return jdbcTemplate.query("SELECT * FROM Person WHERE id=?", new Object[]{id}, new PersonMapper())
+        return jdbcTemplate.query("SELECT * FROM Person WHERE id=?", new Object[]{id}, new BeanPropertyRowMapper<>(Person.class))
                 .stream().findAny().orElse(null);
     }
 
     public void save(Person person) {
-        jdbcTemplate.update("INSERT INTO Person VALUES (1, ?, ?, ?)",
-                person.getName(), person.getAge(), person.getEmail());
+        AtomicInteger id = lastId();
+        int id_2 = id.get();
+        id_2++;
+        jdbcTemplate.update("INSERT INTO Person VALUES (?, ?, ?, ?)",
+                id_2, person.getName(), person.getAge(), person.getEmail());
     }
 
     public void update(int id, Person updatePerson) {
@@ -38,6 +42,11 @@ public class PersonDao {
 
     public void delete(int id) {
         jdbcTemplate.update("DELETE FROM Person WHERE id=?", id);
+    }
+
+    private AtomicInteger lastId() {
+        return jdbcTemplate.query("SELECT id FROM Person ORDER BY id DESC LIMIT 1", new IntegerMapper())
+                .stream().findAny().orElse(null);
     }
 
 }
