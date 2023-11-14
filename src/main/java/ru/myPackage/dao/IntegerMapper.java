@@ -6,10 +6,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class IntegerMapper implements RowMapper<AtomicInteger> {
+public class IntegerMapper implements RowMapper<Integer> {
     @Override
-    public AtomicInteger mapRow(ResultSet rs, int rowNum) throws SQLException {
-        AtomicInteger integer = new AtomicInteger(rs.getInt(1));
+    public Integer mapRow(ResultSet rs, int rowNum) throws SQLException {
+
+        Integer integer = rs.getInt(1);
 
         return integer;
     }

@@ -28,11 +28,8 @@ public class PersonDao {
     }
 
     public void save(Person person) {
-        AtomicInteger id = lastId();
-        int id_2 = id.get();
-        id_2++;
         jdbcTemplate.update("INSERT INTO Person VALUES (?, ?, ?, ?)",
-                id_2, person.getName(), person.getAge(), person.getEmail());
+                lastId() + 1, person.getName(), person.getAge(), person.getEmail());
     }
 
     public void update(int id, Person updatePerson) {
@@ -44,7 +41,7 @@ public class PersonDao {
         jdbcTemplate.update("DELETE FROM Person WHERE id=?", id);
     }
 
-    private AtomicInteger lastId() {
+    private Integer lastId() {
         return jdbcTemplate.query("SELECT id FROM Person ORDER BY id DESC LIMIT 1", new IntegerMapper())
                 .stream().findAny().orElse(null);
     }

@@ -61,7 +61,6 @@ public class PeopleController {
     }
 
     @PatchMapping("/{id}")
-//    @RequestMapping(value = "/{id}", method = RequestMethod.PATCH)
     public String update(@ModelAttribute("person") @Valid Person person,
                          BindingResult bindingResult,
                          @PathVariable("id") int id) {
