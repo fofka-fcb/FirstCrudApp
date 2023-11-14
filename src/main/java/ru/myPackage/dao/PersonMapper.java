@@ -16,6 +16,7 @@ public class PersonMapper implements RowMapper<Person> {
         person.setName(rs.getString("name"));
         person.setEmail(rs.getString("email"));
         person.setAge(rs.getInt("age"));
+        person.setPhoneNumber(rs.getInt("phone_number"));
 
         return person;
     }

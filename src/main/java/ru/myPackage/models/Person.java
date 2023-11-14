@@ -19,9 +19,8 @@ public class Person {
     @Email(message = "Email should be valid")
     private String email;
 
-
-//    @Size(min = 10, max = 11, message = "Phone number not valid")
-//    private int phoneNumber;
+    //Пока не заработало
+    private long phoneNumber;
 
     public Person() {
     }
@@ -31,7 +30,14 @@ public class Person {
         this.name = name;
         this.age = age;
         this.email = email;
-//        this.phoneNumber = phoneNumber;
+    }
+
+    public Person(int id, String name, int age, String email, int phoneNumber) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
     }
 
     public int getId() {
@@ -66,11 +72,12 @@ public class Person {
         this.email = email;
     }
 
-//    public int getPhoneNumber() {
-//        return phoneNumber;
-//    }
-//
-//    public void setPhoneNumber(int phoneNumber) {
-//        this.phoneNumber = phoneNumber;
-//    }
+    public long getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(long phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
 }
