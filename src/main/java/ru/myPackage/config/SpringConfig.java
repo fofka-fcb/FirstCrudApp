@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -17,22 +18,32 @@ import org.thymeleaf.spring6.view.ThymeleafViewResolver;
 import ru.myPackage.utils.Props;
 
 import javax.sql.DataSource;
+import java.util.Objects;
 
 @Configuration
 @ComponentScan("ru.myPackage")
 @EnableWebMvc
 @PropertySource("classpath:application.properties")
+@PropertySource("classpath:dataBase2.properties")
 public class SpringConfig implements WebMvcConfigurer {
 
     private final ApplicationContext applicationContext;
 
-    private final Props props;
+//    private final Props props;
+
+    public final Environment environment;
 
     @Autowired
-    public SpringConfig(ApplicationContext applicationContext, Props props) {
+    public SpringConfig(ApplicationContext applicationContext, Environment environment) {
         this.applicationContext = applicationContext;
-        this.props = props;
+        this.environment = environment;
     }
+
+//    @Autowired
+//    public SpringConfig(ApplicationContext applicationContext, Props props) {
+//        this.applicationContext = applicationContext;
+//        this.props = props;
+//    }
 
     @Bean
     public SpringResourceTemplateResolver templateResolver() {
@@ -62,10 +73,15 @@ public class SpringConfig implements WebMvcConfigurer {
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
 
-        dataSource.setDriverClassName("org.postgresql.Driver");
-        dataSource.setUrl(props.getValue("db.url"));
-        dataSource.setUsername(props.getValue("db.login"));
-        dataSource.setPassword(props.getValue("db.password"));
+//        dataSource.setDriverClassName("org.postgresql.Driver");
+//        dataSource.setUrl(props.getValue("db.url"));
+//        dataSource.setUsername(props.getValue("db.login"));
+//        dataSource.setPassword(props.getValue("db.password"));
+
+        dataSource.setDriverClassName(Objects.requireNonNull(environment.getProperty("driver")));
+        dataSource.setUrl(environment.getProperty("url"));
+        dataSource.setUsername(environment.getProperty("username_value"));
+        dataSource.setPassword(environment.getProperty("password"));
 
         return dataSource;
     }
