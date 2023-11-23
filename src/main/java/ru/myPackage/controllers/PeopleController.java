@@ -9,16 +9,19 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.myPackage.dao.PersonDao;
 import ru.myPackage.models.Person;
+import ru.myPackage.utils.PersonValidator;
 
 @Controller
 @RequestMapping("/people")
 @PropertySource("classpath:application.properties")
 public class PeopleController {
 
+    private final PersonValidator personValidator;
     private final PersonDao personDao;
 
     @Autowired
-    public PeopleController(PersonDao personDao) {
+    public PeopleController(PersonValidator personValidator, PersonDao personDao) {
+        this.personValidator = personValidator;
         this.personDao = personDao;
     }
 
@@ -45,6 +48,8 @@ public class PeopleController {
     public String create(@ModelAttribute("person") @Valid Person person,
                          BindingResult bindingResult) { //В bindingResult помещаются все ошибки валидации
 
+        personValidator.validate(person, bindingResult);
+
         if (bindingResult.hasErrors()) return "people/new";
 
         personDao.save(person);
@@ -64,6 +69,8 @@ public class PeopleController {
     public String update(@ModelAttribute("person") @Valid Person person,
                          BindingResult bindingResult,
                          @PathVariable("id") int id) {
+
+        personValidator.validate(person, bindingResult);
 
         if (bindingResult.hasErrors()) return "people/edit";
 

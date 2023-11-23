@@ -29,8 +29,6 @@ public class SpringConfig implements WebMvcConfigurer {
 
     private final ApplicationContext applicationContext;
 
-//    private final Props props;
-
     public final Environment environment;
 
     @Autowired
@@ -38,12 +36,6 @@ public class SpringConfig implements WebMvcConfigurer {
         this.applicationContext = applicationContext;
         this.environment = environment;
     }
-
-//    @Autowired
-//    public SpringConfig(ApplicationContext applicationContext, Props props) {
-//        this.applicationContext = applicationContext;
-//        this.props = props;
-//    }
 
     @Bean
     public SpringResourceTemplateResolver templateResolver() {
@@ -72,11 +64,6 @@ public class SpringConfig implements WebMvcConfigurer {
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-
-//        dataSource.setDriverClassName("org.postgresql.Driver");
-//        dataSource.setUrl(props.getValue("db.url"));
-//        dataSource.setUsername(props.getValue("db.login"));
-//        dataSource.setPassword(props.getValue("db.password"));
 
         dataSource.setDriverClassName(Objects.requireNonNull(environment.getProperty("driver")));
         dataSource.setUrl(environment.getProperty("url"));

@@ -1,9 +1,6 @@
 package ru.myPackage.models;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 
 public class Person {
     private int id;
@@ -19,8 +16,11 @@ public class Person {
     @Email(message = "Email should be valid")
     private String email;
 
-    //Пока не заработало
     private long phoneNumber;
+
+    //Страна, Город, Почтовый индекс (6 цифр)
+    @Pattern(regexp = "[A-Z]\\w+, [A-Z]\\w+, \\d{6}", message = "Your address should be in this format: Country, City, Postal code (6 digits)")
+    private String address;
 
     public Person() {
     }
@@ -80,4 +80,11 @@ public class Person {
         this.phoneNumber = phoneNumber;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 }
